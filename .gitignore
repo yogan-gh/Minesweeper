@@ -1,0 +1,67 @@
+# Project exclude paths
+/.gradle/
+/Minesweeper (Kotlin)/task/build/
+/Minesweeper (Kotlin)/task/out/
+/Minesweeper (Kotlin)/task/out/production/classes/
+/Topics/Characters/Previous character/out/
+/Topics/Characters/Previous character/out/production/classes/
+/Topics/Characters/Sequence/out/
+/Topics/Characters/Sequence/out/production/classes/
+/Topics/Comments/Comment some lines/out/
+/Topics/Comments/Comment some lines/out/production/classes/
+/Topics/Declaring functions/Get last digit/out/
+/Topics/Declaring functions/Get last digit/out/production/classes/
+/Topics/Declaring functions/The square of a number/out/
+/Topics/Declaring functions/The square of a number/out/production/classes/
+/Topics/Enum/The rainbow order/out/
+/Topics/Enum/The rainbow order/out/production/classes/
+/Topics/For loop and lists/Two numbers in a row/out/
+/Topics/For loop and lists/Two numbers in a row/out/production/classes/
+/Topics/If expression/Odd or even/out/
+/Topics/If expression/Odd or even/out/production/classes/
+/Topics/If expression/The max of two numbers without else-branch/out/
+/Topics/If expression/The max of two numbers without else-branch/out/production/classes/
+/Topics/If expression/Triangle/out/
+/Topics/If expression/Triangle/out/production/classes/
+/Topics/Integers in action/Apple pie/out/
+/Topics/Integers in action/Apple pie/out/production/classes/
+/Topics/Integers in action/The number of tens/out/
+/Topics/Integers in action/The number of tens/out/production/classes/
+/Topics/Integers in action/Time format/out/
+/Topics/Integers in action/Time format/out/production/classes/
+/Topics/Introduction to MutableList/Initializing a mutable list of characters/out/
+/Topics/Introduction to MutableList/Initializing a mutable list of characters/out/production/classes/
+/Topics/Introduction to MutableList/Initializing a mutable list of integers/out/
+/Topics/Introduction to MutableList/Initializing a mutable list of integers/out/production/classes/
+/Topics/Jumps and returns/Beyond the word/out/
+/Topics/Jumps and returns/Beyond the word/out/production/classes/
+/Topics/Multi-dimensional list/Cube of zeros/out/
+/Topics/Multi-dimensional list/Cube of zeros/out/production/classes/
+/Topics/Multi-dimensional list/Kotlin lists/out/
+/Topics/Multi-dimensional list/Kotlin lists/out/production/classes/
+/Topics/Multi-dimensional list/Theory/out/
+/Topics/Multi-dimensional list/Theory/out/production/classes/
+/Topics/Named arguments/Perimeter/out/
+/Topics/Named arguments/Perimeter/out/production/classes/
+/Topics/Ranges/Not in range/out/
+/Topics/Ranges/Not in range/out/production/classes/
+/Topics/Ranges/Working hours/out/
+/Topics/Ranges/Working hours/out/production/classes/
+/Topics/Relational operators/Groundhogs at the party/out/
+/Topics/Relational operators/Groundhogs at the party/out/production/classes/
+/Topics/Relational operators/Who is less than 10/out/
+/Topics/Relational operators/Who is less than 10/out/production/classes/
+/Topics/Repeating blocks/Maximum element divisible by 4/out/
+/Topics/Repeating blocks/Maximum element divisible by 4/out/production/classes/
+/Topics/Repeating blocks/Repeat by value/out/
+/Topics/Repeating blocks/Repeat by value/out/production/classes/
+/Topics/Type conversion/Cutting the fraction/out/
+/Topics/Type conversion/Cutting the fraction/out/production/classes/
+/Topics/When expression/Just checking/out/
+/Topics/When expression/Just checking/out/production/classes/
+/Topics/When expression/Shape/out/
+/Topics/When expression/Shape/out/production/classes/
+/Topics/When expression/Strings as objects/out/
+/Topics/When expression/Strings as objects/out/production/classes/
+/Topics/Work with MutableLists/Adding lists/out/
+/Topics/Work with MutableLists/Adding lists/out/production/classes/
