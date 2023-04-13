@@ -3,8 +3,63 @@ package minesweeper
 class Field(val widthX: Int = 9, val heightY: Int = 9, _mines: Int = 9) {
     val size = heightY * widthX
     val mines = if (_mines in 1..size) _mines else if (_mines < 1) 1 else size - 1
-    val field = MutableList(heightY) { MutableList(widthX) { Cell(Type.EMPTY) } } //filed[Y][X]
+    val field = MutableList(heightY) { MutableList(widthX) { Cell(CellType.EMPTY) } } //filed[Y][X]
     var gameEnd = false
+    enum class Symbol(val symbol: Char) {
+        MINE('X'),
+        EMPTY('/'),
+        MASK('.'),
+        FLAG('*'),
+        PROMPT_1('1'),
+        PROMPT_2('2'),
+        PROMPT_3('3'),
+        PROMPT_4('4'),
+        PROMPT_5('5'),
+        PROMPT_6('6'),
+        PROMPT_7('7'),
+        PROMPT_8('8');
+    }
+    enum class CellType(val symbol: Char, val promptIndex: Int = 0) {
+        MINE(Symbol.MINE.symbol),
+        EMPTY(Symbol.EMPTY.symbol),
+        PROMPT_1(Symbol.PROMPT_1.symbol, 1),
+        PROMPT_2(Symbol.PROMPT_2.symbol, 2),
+        PROMPT_3(Symbol.PROMPT_3.symbol, 3),
+        PROMPT_4(Symbol.PROMPT_4.symbol, 4),
+        PROMPT_5(Symbol.PROMPT_5.symbol, 5),
+        PROMPT_6(Symbol.PROMPT_6.symbol, 6),
+        PROMPT_7(Symbol.PROMPT_7.symbol, 7),
+        PROMPT_8(Symbol.PROMPT_8.symbol, 8);
+    }
+    inner class Cell {
+        val type: CellType
+        var isShow: Boolean
+        var isFlag: Boolean = false
+
+        constructor(cellType: CellType, isShow: Boolean = false) {
+            this.type = cellType
+            this.isShow = isShow
+        }
+
+        constructor(promptIndex: Int, isShow: Boolean = false) {
+            var promptCellType = CellType.EMPTY
+            for (enum in CellType.values()) {
+                if (promptIndex == enum.promptIndex) promptCellType = enum
+            }
+            this.type = promptCellType
+            this.isShow = isShow
+        }
+        fun show() {
+            this.isShow = true
+            this.isFlag = true
+        }
+        val symbol: Char
+            get() = when {
+                isShow -> type.symbol
+                isFlag -> Symbol.FLAG.symbol
+                else -> Symbol.MASK.symbol
+            }
+    }
     fun getCell(x: Int, y: Int): Cell = field[y][x]
     fun setCell(x: Int, y: Int, cell: Cell) {
         field[y][x] = cell
@@ -12,15 +67,15 @@ class Field(val widthX: Int = 9, val heightY: Int = 9, _mines: Int = 9) {
     fun generateMines(startX: Int = -1, startY: Int = -1) {
         field.clear()
         val fieldLine =
-            (MutableList(size - mines) {Cell(Type.EMPTY)} + MutableList(mines) {Cell(Type.MINE)}).shuffled().toMutableList()
+            (MutableList(size - mines) {Cell(CellType.EMPTY)} + MutableList(mines) {Cell(CellType.MINE)}).shuffled().toMutableList()
         val start = (startY * widthX) + startX
-        if (fieldLine[start].type == Type.MINE) {
-            fieldLine[start] = Cell(Type.EMPTY)
+        if (fieldLine[start].type == CellType.MINE) {
+            fieldLine[start] = Cell(CellType.EMPTY)
             val emptyIndexes = mutableListOf<Int>()
             for (index in 0..fieldLine.lastIndex) {
-                if (fieldLine[index].type == Type.EMPTY) emptyIndexes.add(index)
+                if (fieldLine[index].type == CellType.EMPTY) emptyIndexes.add(index)
             }
-            fieldLine[emptyIndexes.shuffled().first()] = Cell(Type.MINE)
+            fieldLine[emptyIndexes.shuffled().first()] = Cell(CellType.MINE)
         }
         repeat(heightY) {
             val line = fieldLine.subList(it * widthX, (it + 1) * widthX).toMutableList()
@@ -30,10 +85,10 @@ class Field(val widthX: Int = 9, val heightY: Int = 9, _mines: Int = 9) {
     fun generateHints() {
         repeat(widthX) {x ->
             repeat(heightY) {y ->
-                if (getCell(x, y).type != Type.MINE) {
+                if (getCell(x, y).type != CellType.MINE) {
                     var minesAround = 0
                     val nearCells = getNearCells(x, y)
-                    for (cell in nearCells) if (cell.type == Type.MINE) minesAround += 1
+                    for (cell in nearCells) if (cell.type == CellType.MINE) minesAround += 1
                     if (minesAround != 0) setCell(x, y, Cell(minesAround))
                 }
             }
@@ -80,7 +135,7 @@ class Field(val widthX: Int = 9, val heightY: Int = 9, _mines: Int = 9) {
         var minesFind = 0
         for (cell in getAllCells()) {
             if (!cell.isShow) hideCellCount += 1
-            if (cell.type == Type.MINE && cell.isFlag) minesFind += 1
+            if (cell.type == CellType.MINE && cell.isFlag) minesFind += 1
         }
         return (hideCellCount == mines) || (minesFind == mines)
     }
@@ -112,7 +167,7 @@ class Field(val widthX: Int = 9, val heightY: Int = 9, _mines: Int = 9) {
                 openCell.show()
                 printField = true
             }
-            openCell.type == Type.EMPTY -> {
+            openCell.type == CellType.EMPTY -> {
                 val listEmpty = mutableListOf(mutableListOf(x, y))
                 while (listEmpty.isNotEmpty()) {
                     val emptyX = listEmpty.first()[0]
@@ -125,7 +180,7 @@ class Field(val widthX: Int = 9, val heightY: Int = 9, _mines: Int = 9) {
                         val nearY = near[1]
                         val nearCell = getCell(nearX, nearY)
                         when {
-                            nearCell.type == Type.EMPTY && !nearCell.isShow ->
+                            nearCell.type == CellType.EMPTY && !nearCell.isShow ->
                                 listEmpty.add(mutableListOf(nearX, nearY))
                             nearCell.type.promptIndex > 0 -> {
                                 if (!nearCell.isShow) {
@@ -137,8 +192,8 @@ class Field(val widthX: Int = 9, val heightY: Int = 9, _mines: Int = 9) {
                 }
                 printField = true
             }
-            openCell.type == Type.MINE -> {
-                for (cell in getAllCells()) if (cell.type == Type.MINE) cell.isShow = true
+            openCell.type == CellType.MINE -> {
+                for (cell in getAllCells()) if (cell.type == CellType.MINE) cell.isShow = true
                 gameEnd = true
                 printField = true
                 showMsg = "You stepped on a mine and failed!"
